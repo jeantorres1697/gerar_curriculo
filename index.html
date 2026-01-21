@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Currículo</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/image/favicon_io/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/image/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="assets/image/favicon_io/site.webmanifest">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-wrapper">
+            <div class="editor-panel">
+                <div class="editor-header">
+                    <h1>Gerador de Currículo</h1>
+                    <!-- <img src="assets/image/LOGO-BLOTTI.png" alt="B.lotti Logo" class="blotti-logo"> -->
+
+                </div>
+
+                <form id="curriculoForm" class="form-container">
+                    <!-- Dados Pessoais -->
+                    <section class="form-section">
+                        <h2>Dados Pessoais</h2>
+                        <div class="form-group">
+                            <label for="foto">Foto de Perfil</label>
+                            <div class="foto-upload-wrapper">
+                                <input type="file" id="foto" name="foto" accept="image/*" class="foto-input">
+                                <label for="foto" class="foto-upload-label">
+                                    <span class="foto-icon">📷</span>
+                                    <span class="foto-text">Clique para adicionar foto</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nome">Nome Completo *</label>
+                            <input type="text" id="nome" name="nome" required placeholder="Ex: João da Silva">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone">Telefone</label>
+                                <input type="tel" id="telefone" name="telefone" placeholder="(11) 9999-9999">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="localidade">Localidade</label>
+                                <input type="text" id="localidade" name="localidade" placeholder="Ex: São Paulo, SP">
+                            </div>
+                            <div class="form-group">
+                                <label for="linkedin">LinkedIn</label>
+                                <input type="url" id="linkedin" name="linkedin"
+                                    placeholder="https://linkedin.com/in/seu-perfil">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="resumo">Resumo Profissional</label>
+                            <textarea id="resumo" name="resumo" rows="4"
+                                placeholder="Uma breve descrição sobre você e sua experiência..."></textarea>
+                        </div>
+                    </section>
+
+                    <!-- Experiência Profissional -->
+                    <section class="form-section">
+                        <h2>Experiência Profissional</h2>
+                        <div id="experienciaContainer"></div>
+                        <button type="button" class="btn-add" id="adicionarExperiencia">+ Adicionar Experiência</button>
+                    </section>
+
+                    <!-- Formação Acadêmica -->
+                    <section class="form-section">
+                        <h2>Formação Acadêmica</h2>
+                        <div id="formacaoContainer"></div>
+                        <button type="button" class="btn-add" id="adicionarFormacao">+ Adicionar Formação</button>
+                    </section>
+
+                    <!-- Habilidades -->
+                    <section class="form-section">
+                        <h2>Habilidades</h2>
+                        <div id="habilidadesContainer"></div>
+                        <button type="button" class="btn-add" id="adicionarHabilidade">+ Adicionar Habilidade</button>
+                    </section>
+
+                    <!-- Idiomas -->
+                    <section class="form-section">
+                        <h2>Idiomas</h2>
+                        <div id="idiomasContainer"></div>
+                        <button type="button" class="btn-add" id="adicionarIdioma">+ Adicionar Idioma</button>
+                    </section>
+
+                    <!-- Botões de Ação -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-info" id="verHistoricos">📋 Meus Modelos</button>
+                        <button type="reset" class="btn btn-secondary">Limpar Formulário</button>
+                        <button type="button" class="btn btn-primary" id="gerarPDF">Gerar PDF</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Painel de Pré-visualização -->
+            <div class="preview-panel">
+                <div id="previewContent" class="preview-content" style="background: white; color: black;">
+                    <div class="curriculum-container">
+                        <!-- Foto -->
+                        <div id="previewFotoSection" class="curriculum-foto-section" style="display: none;">
+                            <img id="previewFoto" src="" alt="Foto de Perfil" class="curriculum-foto">
+                        </div>
+                        <div class="curriculum-header">
+                            <div class="curriculum-title">
+                                <h1 id="previewNome">Seu Nome</h1>
+                                <p id="previewProfissao" class="profissao">Profissional</p>
+                            </div>
+                            <div class="curriculum-contact">
+                                <div id="previewEmail" class="contact-item">seu@email.com</div>
+                                <div id="previewTelefone" class="contact-item" style="display: none;"></div>
+                                <div id="previewLocalidade" class="contact-item" style="display: none;"></div>
+                                <div id="previewLinkedin" class="contact-item" style="display: none;">
+                                    <a href="#" target="_blank">LinkedIn</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resumo -->
+                        <div id="previewResumoSection" class="curriculum-section" style="display: none;">
+                            <h2>Resumo Profissional</h2>
+                            <p id="previewResumo"></p>
+                        </div>
+
+                        <!-- Experiência Profissional -->
+                        <div id="previewExperienciaSection" class="curriculum-section" style="display: none;">
+                            <h2>Experiência Profissional</h2>
+                            <div id="previewExperienciaList"></div>
+                        </div>
+
+                        <!-- Formação Acadêmica -->
+                        <div id="previewFormacaoSection" class="curriculum-section" style="display: none;">
+                            <h2>Formação Acadêmica</h2>
+                            <div id="previewFormacaoList"></div>
+                        </div>
+
+                        <!-- Habilidades -->
+                        <div id="previewHabilidadesSection" class="curriculum-section" style="display: none;">
+                            <h2>Habilidades</h2>
+                            <div id="previewHabilidadesList" class="skills-list"></div>
+                        </div>
+
+                        <!-- Idiomas -->
+                        <div id="previewIdiomasSection" class="curriculum-section" style="display: none;">
+                            <h2>Idiomas</h2>
+                            <div id="previewIdiomasList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Históricos -->
+    <div id="historicoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Meus Modelos Salvos</h2>
+                <button class="modal-close" onclick="fecharModalHistorico()">&times;</button>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Nome do Novo Modelo:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="nomeModeloNovo" placeholder="Ex: Modelo TI 2026">
+                    <button class="btn-add" style="width: auto;" onclick="salvarComoModelo()">Salvar</button>
+                </div>
+            </div>
+
+            <div id="listaModelos">
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Desenvolvido por <a href="hhttps://jeantorres1697.github.io/portifolio/" target="_blank">Jean Torres</a>
+            &copy; 2026</p>
+
+        <script src="assets/js/app.js"></script>
+</body>
+
+</html>
