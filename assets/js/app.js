@@ -432,7 +432,7 @@ function gerarPDF() {
       window.print();
       // Remove a classe para o formulário voltar a aparecer no site após imprimir
       document.body.classList.remove("imprimindo-curriculo");
-    }, 300);
+    }, 500);
   } else {
     // --- LÓGICA ORIGINAL PARA PC (html2pdf) ---
     html2pdf()
@@ -454,3 +454,4 @@ function abrirModalHistorico() {
 function fecharModalHistorico() {
   document.getElementById("historicoModal").classList.remove("active");
 }
+
