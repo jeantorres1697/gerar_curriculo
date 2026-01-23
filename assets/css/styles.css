@@ -354,6 +354,25 @@ body {
   box-shadow: var(--shadow-lg);
 }
 
+.curriculum-foto-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50% !important;
+    border: 3px solid var(--primary-color);
+    margin: 0 auto;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    
+    /* Crucial para Mobile Print */
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
 .curriculum-header {
   display: flex;
   justify-content: space-between;
@@ -668,7 +687,15 @@ body {
     width: 100% !important;
     padding: 0 !important;
   }
-  /* 10. Remove cabeçalhos e rodapés padrão do navegador (data, url) */
+
+  /* 10. Garante que a foto não suma ou fique quadrada no PDF do celular */
+    .curriculum-foto-circle {
+        display: block !important;
+        visibility: visible !important;
+        width: 120px !important;
+        height: 120px !important;
+    }
+  /* 11. Remove cabeçalhos e rodapés padrão do navegador (data, url) */
   @page {
     margin: 1cm;
   }
@@ -773,5 +800,6 @@ body {
   padding: 30px;
   color: var(--text-secondary);
 }
+
 
 
