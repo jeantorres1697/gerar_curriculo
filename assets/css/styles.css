@@ -579,7 +579,7 @@ body {
   animation: slideIn 0.3s ease;
 }
 
-/* --- CORREÇÃO PARA IMPRESSÃO MOBILE --- */
+/* --- IMPRESSÃO MOBILE --- */
 @media print {
   /* 1. Esconde ABSOLUTAMENTE tudo que não for o preview */
   body * {
@@ -588,7 +588,10 @@ body {
   }
 
   /* 2. Reseta o container principal para não usar Grid/Flex no papel */
-  .main-wrapper, .container, body, html {
+  .main-wrapper,
+  .container,
+  body,
+  html {
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -598,8 +601,10 @@ body {
   }
 
   /* 3. Faz apenas o Preview e seus filhos ficarem visíveis */
-  #previewPanel, #previewPanel *, 
-  #previewContent, #previewContent * {
+  #previewPanel,
+  #previewPanel *,
+  #previewContent,
+  #previewContent * {
     visibility: visible !important;
   }
 
@@ -615,7 +620,7 @@ body {
   }
 
   .preview-content {
-    padding: 0 !important; /* Remove margens internas na impressão */
+    padding: 0 !important;
     width: 100% !important;
   }
 
@@ -625,10 +630,47 @@ body {
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
+  /* 6. Força a remoção total do espaço do formulário e logo */
+  .editor-panel, .editor-header, .blotti-logo, .form-actions, .footer {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+  }
 
-  /* 6. Remove cabeçalhos e rodapés padrão do navegador (data, url) */
+  /* 7. Garante que o container de preview suba para o topo absoluto */
+  .main-wrapper {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .preview-panel {
+    position: static !important; /* Muda de absolute para static para fluir melhor */
+    width: 100% !important;
+    padding: 0 !important;
+  }
+/* 8. Força a remoção total do espaço do formulário e logo */
+  .editor-panel, .editor-header, .blotti-logo, .form-actions, .footer {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 9. Garante que o container de preview suba para o topo absoluto */
+  .main-wrapper {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .preview-panel {
+    position: static !important; /* Muda de absolute para static para fluir melhor */
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  /* 10. Remove cabeçalhos e rodapés padrão do navegador (data, url) */
   @page {
-    margin: 1cm; /* Margem padrão de impressão */
+    margin: 1cm;
   }
 }
 /* --- FIM DO BLOCO NOVO --- */
