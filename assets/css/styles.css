@@ -579,52 +579,56 @@ body {
   animation: slideIn 0.3s ease;
 }
 
-/* --- BLOCO NOVO PARA CORREÇÃO DO MOBILE --- */
+/* --- CORREÇÃO PARA IMPRESSÃO MOBILE --- */
 @media print {
-  /* 1. Esconde o painel de edição e qualquer elemento desnecessário */
-  body.imprimindo-curriculo .editor-panel,
-  body.imprimindo-curriculo .form-actions,
-  body.imprimindo-curriculo .footer,
-  body.imprimindo-curriculo .editor-header,
-  body.imprimindo-curriculo button {
-    display: none !important;
+  /* 1. Esconde ABSOLUTAMENTE tudo que não for o preview */
+  body * {
+    visibility: hidden;
+    overflow: visible !important;
   }
 
-  /* 2. MUITO IMPORTANTE: Desativa o Grid do wrapper para não sobrar espaço vazio */
-  body.imprimindo-curriculo .main-wrapper {
+  /* 2. Reseta o container principal para não usar Grid/Flex no papel */
+  .main-wrapper, .container, body, html {
     display: block !important;
-    grid-template-columns: 1fr !important;
+    margin: 0 !important;
+    padding: 0 !important;
     height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* 3. Faz o painel de preview ocupar 100% da largura */
-  body.imprimindo-curriculo .preview-panel {
     width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
     background: white !important;
   }
 
-  body.imprimindo-curriculo .preview-content {
-    padding: 0 !important;
-    margin: 0 !important;
+  /* 3. Faz apenas o Preview e seus filhos ficarem visíveis */
+  #previewPanel, #previewPanel *, 
+  #previewContent, #previewContent * {
+    visibility: visible !important;
   }
 
-  /* 4. Força o navegador a mostrar apenas o conteúdo do preview */
-  body.imprimindo-curriculo #previewContent {
-    visibility: visible !important;
+  /* 4. Posiciona o conteúdo no topo esquerdo da folha */
+  #previewPanel {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .preview-content {
+    padding: 0 !important; /* Remove margens internas na impressão */
     width: 100% !important;
   }
 
-  /* Garante cores de fundo (faixas azuis, badges) */
+  /* 5. Força o navegador a imprimir cores e fundos (essencial para as barras e badges) */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* 6. Remove cabeçalhos e rodapés padrão do navegador (data, url) */
+  @page {
+    margin: 1cm; /* Margem padrão de impressão */
   }
 }
 /* --- FIM DO BLOCO NOVO --- */
@@ -727,4 +731,5 @@ body {
   padding: 30px;
   color: var(--text-secondary);
 }
+
 
