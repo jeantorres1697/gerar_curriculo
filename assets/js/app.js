@@ -234,7 +234,7 @@ function atualizarPreview() {
 
   const pLink = document.getElementById("previewLinkedin");
   if (link) {
-    pLink.innerHTML = `<a href="${link.startsWith("http") ? link : "https://" + link}" target="_blank">🔗 LinkedIn</a>`;
+    pLink.textContent = "🔗 " + link;
     pLink.style.display = "block";
   } else {
     pLink.style.display = "none";
@@ -477,5 +477,6 @@ function abrirModalHistorico() {
 function fecharModalHistorico() {
   document.getElementById("historicoModal").classList.remove("active");
 }
+
 
 
