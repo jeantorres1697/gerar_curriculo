@@ -109,7 +109,10 @@ function adicionarFormacao(dados = null) {
             <div class="form-group"><input type="text" class="form-instituicao" placeholder="Instituição" value="${dados?.inst || ""}"></div>
         </div>
         <div class="form-row" style="margin-top: 15px;">
-            <div class="form-group"><input type="text" class="form-conclusao" placeholder="Ano Conclusão" value="${dados?.concl || ""}" oninput="this.value = this.value.replace(/\\D/g,'').slice(0,4)"></div>
+            <div class="form-group">
+                <input type="text" class="form-conclusao" placeholder="Ano Conclusão" value="${dados?.concl || ""}" 
+                oninput="validarAnoFormacao(this)">
+            </div>
             <div class="form-group">
                 <select class="form-status">
                     <option value="Concluído" ${dados?.status === "Concluído" ? "selected" : ""}>Concluído</option>
@@ -118,6 +121,23 @@ function adicionarFormacao(dados = null) {
             </div>
         </div>`;
   document.getElementById("formacaoContainer").appendChild(div);
+  atualizarPreview();
+}
+
+// Validação do ano de formação (para não ser maior que o ano atual)
+function validarAnoFormacao(el) {
+  // Remove tudo que não é número
+  let valor = el.value.replace(/\D/g, "");
+
+  // Se tiver 4 dígitos, verifica se é maior que o ano atual
+  if (valor.length === 4) {
+    if (parseInt(valor) > ANO_ATUAL) {
+      alert(`O ano de conclusão não pode ser superior a ${ANO_ATUAL}`);
+      valor = ANO_ATUAL.toString();
+    }
+  }
+
+  el.value = valor.slice(0, 4);
   atualizarPreview();
 }
 
@@ -185,9 +205,12 @@ function handleFotoUpload(e) {
 
 function atualizarPreview() {
   const foto = localStorage.getItem("curriculoFoto");
-  if (foto) {
-    document.getElementById("previewFoto").src = foto;
-    document.getElementById("previewFotoSection").style.display = "block";
+  const fotoDiv = document.getElementById("previewFotoDiv"); // Ajustado para o ID da DIV que você vai colocar no HTML
+  const fotoSection = document.getElementById("previewFotoSection");
+
+  if (foto && fotoDiv) {
+    fotoDiv.style.backgroundImage = `url(${foto})`;
+    fotoSection.style.display = "block";
   }
 
   const nome = document.getElementById("nome").value;
@@ -454,4 +477,5 @@ function abrirModalHistorico() {
 function fecharModalHistorico() {
   document.getElementById("historicoModal").classList.remove("active");
 }
+
 
